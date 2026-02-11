@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Story Mapping: Телеветеринария</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f1f5f9;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 60px;
+            min-height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-content {
+            width: 100%;
+            animation: slideInFade 0.6s ease-out;
+        }
+
+        @keyframes slideInFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 1.4rem; color: #cbd5e1; font-weight: 600; }
+        h3 { font-size: 1.2rem; color: #60a5fa; margin: 16px 0 12px 0; }
+        p { font-size: 1.05rem; line-height: 1.8; color: #cbd5e1; }
+
+        .highlight { color: #60a5fa; font-weight: 600; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover { border-color: rgba(96, 165, 250, 0.5); background: rgba(30, 41, 59, 0.9); }
+
+        .metric {
+            background: rgba(96, 165, 250, 0.15);
+            border-left: 4px solid #60a5fa;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 4px;
+        }
+
+        .metric-value { font-size: 1.8rem; font-weight: 700; color: #60a5fa; margin-top: 8px; }
+
+        .timeline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            overflow-x: auto;
+            padding: 15px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .timeline-dot {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-label { font-size: 0.85rem; color: #cbd5e1; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            color: #cbd5e1;
+        }
+
+        tr:hover { background: rgba(96, 165, 250, 0.05); }
+
+        .list-item { margin: 8px 0 8px 24px; position: relative; }
+        .list-item:before { content: "→"; position: absolute; left: 0; color: #60a5fa; }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(30, 41, 59, 0.5);
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        button {
+            background: rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+            border: 2px solid #60a5fa;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        button:hover { background: rgba(96, 165, 250, 0.3); transform: translateY(-2px); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .slide-indicator {
+            font-size: 1rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(148, 163, 184, 0.2);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #60a5fa 0%, #c084fc 100%);
+            transition: width 0.3s ease;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+        }
+
+        .variant-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .slide-container { padding: 40px 20px; }
+            h1 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr; }
+            .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            table { font-size: 0.8rem; }
+            .controls { padding: 15px 20px; flex-wrap: wrap; gap: 10px; }
+        }
+
+        .step-number {
+            display: inline-block;
+            background: rgba(96, 165, 250, 0.3);
+            color: #60a5fa;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="slide-container">
+            <div class="slide-content" id="slideContent">
+                <!-- Slides will be inserted here -->
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prevBtn" onclick="previousSlide()">← Назад</button>
+            <span class="slide-indicator"><span id="currentSlide">1</span> / <span id="totalSlides">12</span></span>
+            <button id="nextBtn" onclick="nextSlide()">Вперёд →</button>
+        </div>
+    </div>
+
+    <script>
+        const slides = [
+            // SLIDE 1
+            {
+                title: "User Story Mapping",
+                subtitle: "Телеветеринария: 4 варианта запуска",
+                content: `
+                    <div style="text-align: center; margin-top: 60px;">
+                        <p style="font-size: 1.3rem; color: #94a3b8; margin-top: 40px;">Анализ journey'ев пользователя для MVP</p>
+                        <p style="color: #60a5b8; margin-top: 20px;">Feb 11, 2026</p>
+                    </div>
+                `
+            },
+            // SLIDE 2
+            {
+                title: "4 варианта запуска",
+                subtitle: "Разные позиционирования, разные journey'ев пользователя",
+                content: `
+                    <div class="grid grid-4">
+                        <div class="card">
+                            <div class="variant-icon">🟡</div>
+                            <h3>Вариант 1</h3>
+                            <p><span class="highlight">Чат</span></p>
+                            <p style="font-size: 0.9rem; margin-top: 10px; color: #94a3b8;">USM: Ветеринар за 5 минут</p>
+                        </div>
+                        <div class="card">
+                            <div class="variant-icon">🟢</div>
+                            <h3>Вариант 2</h3>
+                            <p><span class="highlight">Видео</span></p>
+                            <p style="font-size: 0.9rem; margin-top: 10px; color: #94a3b8;">USM: Premium + страховка</p>
+                        </div>
+                        <div class="card">
+                            <div class="variant-icon">🟠</div>
+                            <h3>Вариант 3</h3>
+                            <p><span class="highlight">Гибрид</span></p>
+                            <p style="font-size: 0.9rem; margin-top: 10px; color: #94a3b8;">USM: Онлайн → офлайн</p>
+                        </div>
+                        <div class="card">
+                            <div class="variant-icon">🔵</div>
+                            <h3>Вариант 4</h3>
+                            <p><span class="highlight">AI+Чат</span></p>
+                            <p style="font-size: 0.9rem; margin-top: 10px; color: #94a3b8;">USM: AI-триаж</p>
+                        </div>
+                    </div>
+                `
+            },
+            // SLIDE 3
+            {
+                title: "Вариант 1: Быстрый чат",
+                subtitle: "USM: «Ветеринар за 5 минут в чате — без видеозвонков»",
+                content: `
+                    <div class="timeline">
+                        <div class="timeline-item"><div class="timeline-dot">🐕</div><div class="timeline-label">Проблема</div></div>
+                        <span style="color: #60a5fa; font-weight: 700;">→</span>
+                        <div class="timeline-item"><div class="timeline-dot">📱</div><div class="timeline-label">Поиск</div></div>
+                        <span style="color: #60a5fa; font-weight: 700;">→</span>
+                        <div class="timeline-item"><div class="timeline-dot">⚡</div><div class="timeline-label">Вход</div></div>
+                        <span style="color: #60a5fa; font-weight: 700;">→</span>
+                        <div class="timeline-item"><div class="timeline-dot">💳</div><div class="timeline-label">Оплата</div></div>
+                        <span style="color: #60a5fa; font-weight: 700;">→</span>
+                        <div class="timeline-item"><div class="timeline-dot">✅</div><div class="timeline-label">Ответ врача</div></div>
+                    </div>
+                    <div class="grid grid-2" style="margin-top: 40px;">
+                        <div class="metric">
+                            <div class="metric-label">Время от проблемы до ответа</div>
+                            <div class="metric-value">&lt; 15 мин</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Цена консультации</div>
+                            <div class="metric-value">399-799 ₽</div>
+                        </div>
+                    </div>
+                    <div class="grid grid-2" style="margin-top: 20px;">
+                        <div class="metric">
+                            <div class="metric-label">Retention (День 30)</div>
+                            <div class="metric-value">15%</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">MRR (месяц 6)</div>
+                            <div class="metric-value">150K ₽</div>
+                        </div>
+                    </div>
+                `
+            },
+            // SLIDE 4
+            {
+                title: "Вариант 2: Premium видео",
+                subtitle: "USM: «Видео + страховка + лояльность»",
+                content: `
+                    <div class="grid grid-2">
+                        <div>
+                            <h3>Этапы journey'я:</h3>
+                            <div class="list-item">Регистрация + KYC</div>
+                            <div class="list-item">Профиль питомца</div>
+                            <div class="list-item">Поиск врача</div>
+                            <div class="list-item">Выбор страховки</div>
+                            <div class="list-item">Бронирование</div>
+                            <div class="list-item">Видео-приём (30 мин)</div>
+                            <div class="list-item">Рецепт врача</div>
+                            <div class="list-item">Медкарта + напоминания</div>
+                        </div>
+                        <div>
+                            <h3>Ключевые метрики:</h3>
+                            <div class="metric" style="border-left-color: #c084fc;">
+                                <div class="metric-label">CAC (привлечение)</div>
+                                <div class="metric-value" style="color: #c084fc;">300 ₽</div>
+                            </div>
+                            <div class="metric" style="border-left-color: #c084fc;">
+                                <div class="metric-label">LTV (lifetime)</div>
+                                <div class="metric-value" style="color: #c084fc;">5000 ₽</div>
+                            </div>
+                            <div class="metric" style="border-left-color: #c084fc;">
+                                <div class="metric-label">Retention (День 30)</div>
+                                <div class="metric-value" style="color: #c084fc;">40%</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            // SLIDE 5
+            {
+                title: "Вариант 3: Гибрид онлайн+офлайн",
+                subtitle: "USM: «Консультируйся дома, затем в клинику без доплаты»",
+                content: `
+                    <div class="grid grid-2">
+                        <div>
+                            <h3>Сценарий: только онлайн</h3>
+                            <div class="list-item">Проблема описана</div>
+                            <div class="list-item">AI-симптомчекер</div>
+                            <div class="list-item">Диагноз + рекомендация</div>
+                            <div class="list-item">Консультация (799 ₽)</div>
+                            <div class="list-item">Решение найдено ✅</div>
+                        </div>
+                        <div>
+                            <h3>Сценарий: онлайн → офлайн</h3>
+                            <div class="list-item">Врач рекомендует осмотр</div>
+                            <div class="list-item">Клиники на карте</div>
+                            <div class="list-item">Запись через приложение</div>
+                            <div class="list-item">Взаимозачёт платежей</div>
+                            <div class="list-item">Единое досье 💾</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(96, 165, 250, 0.1); padding: 16px; border-radius: 8px; margin-top: 30px;">
+                        <p><span class="highlight">Ключевой KPI:</span> Конверсия онлайн → офлайн <span class="highlight">> 30%</span></p>
+                    </div>
+                `
+            },
+            // SLIDE 6
+            {
+                title: "Вариант 4: AI-триаж + чат",
+                subtitle: "USM: «AI структурирует вопрос, врач ответит за 4 минуты»",
+                content: `
+                    <div class="grid grid-4">
+                        <div class="card">
+                            <h3>Этап 1</h3>
+                            <p style="color: #60a5fa; font-weight: 700;">AI-интервью</p>
+                            <p style="font-size: 0.9rem; margin-top: 10px;">Открыл чат, AI задаёт вопросы</p>
+                        </div>
+                        <div class="card">
+                            <h3>Этап 2</h3>
+                            <p style="color: #60a5fa; font-weight: 700;">AI-диагноз</p>
+                            <p style="font-size: 0.9rem; margin-top: 10px;">Анализ, рекомендация врача</p>
+                        </div>
+                        <div class="card">
+                            <h3>Этап 3</h3>
+                            <p style="color: #60a5fa; font-weight: 700;">Маршрутизация</p>
+                            <p style="font-size: 0.9rem; margin-top: 10px;">Структурированный кейс врачу</p>
+                        </div>
+                        <div class="card">
+                            <h3>Этап 4</h3>
+                            <p style="color: #60a5fa; font-weight: 700;">Ответ врача</p>
+                            <p style="font-size: 0.9rem; margin-top: 10px;">Диагноз + план лечения</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(96, 165, 250, 0.1); padding: 16px; border-radius: 8px; margin-top: 30px;">
+                        <p><span class="highlight">Ключевой KPI:</span> Conversion rate (AI → врач) <span class="highlight">> 25%</span></p>
+                    </div>
+                `
+            },
+            // SLIDE 7
+            {
+                title: "Сравнение: Финансовые метрики",
+                subtitle: "CAC vs LTV — экономика каждого варианта",
+                content: `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Метрика</th>
+                                <th>Вариант 1</th>
+                                <th>Вариант 2</th>
+                                <th>Вариант 3</th>
+                                <th>Вариант 4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="highlight">CAC</span></td>
+                                <td>100 ₽</td>
+                                <td>300 ₽</td>
+                                <td>200 ₽</td>
+                                <td>80 ₽</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">LTV</span></td>
+                                <td>500 ₽</td>
+                                <td>5000 ₽</td>
+                                <td>2000 ₽</td>
+                                <td>800 ₽</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">LTV/CAC</span></td>
+                                <td>5x</td>
+                                <td>16.7x</td>
+                                <td>10x</td>
+                                <td>10x</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">Цена консультации</span></td>
+                                <td>399-799 ₽</td>
+                                <td>1500-2500 ₽</td>
+                                <td>400-800 ₽</td>
+                                <td>399-599 ₽</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">MRR (месяц 6)</span></td>
+                                <td>150K ₽</td>
+                                <td>250K ₽</td>
+                                <td>200K ₽</td>
+                                <td>240K ₽</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            // SLIDE 8
+            {
+                title: "Сравнение: KPI и сложность",
+                subtitle: "Retention, время разработки, барьер входа",
+                content: `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Метрика</th>
+                                <th style="width: 18%;">Вариант 1</th>
+                                <th style="width: 18%;">Вариант 2</th>
+                                <th style="width: 18%;">Вариант 3</th>
+                                <th style="width: 18%;">Вариант 4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="highlight">Retention (День 30)</span></td>
+                                <td>15%</td>
+                                <td>40%</td>
+                                <td>25%</td>
+                                <td>20%</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">Time to Revenue</span></td>
+                                <td>1 месяц</td>
+                                <td>3 месяца</td>
+                                <td>2 месяца</td>
+                                <td>1 месяц</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">Разработка MVP</span></td>
+                                <td>2-3 нед</td>
+                                <td>2-3 мес</td>
+                                <td>3-4 нед</td>
+                                <td>4-5 нед</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">Стоимость разработки</span></td>
+                                <td>150-250K</td>
+                                <td>800-1200K</td>
+                                <td>400-600K</td>
+                                <td>300-450K</td>
+                            </tr>
+                            <tr>
+                                <td><span class="highlight">Барьер входа</span></td>
+                                <td>🟢 Низкий</td>
+                                <td>🔴 Высокий</td>
+                                <td>🟡 Средний</td>
+                                <td>🟡 Средний</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            // SLIDE 9
+            {
+                title: "MVP функционал для каждого",
+                subtitle: "Что нужно построить в первые 2-3 недели",
+                content: `
+                    <div class="grid grid-4">
+                        <div class="card">
+                            <h3>Вариант 1 (Чат)</h3>
+                            <span class="badge">17 фич</span>
+                            <div class="list-item" style="font-size: 0.9rem;">Приложение iOS/Android</div>
+                            <div class="list-item" style="font-size: 0.9rem;">SMS регистрация</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Чат с загрузками</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Платежи</div>
+                        </div>
+                        <div class="card">
+                            <h3>Вариант 2 (Видео)</h3>
+                            <span class="badge">25 фич</span>
+                            <div class="list-item" style="font-size: 0.9rem;">Красивый UI</div>
+                            <div class="list-item" style="font-size: 0.9rem;">KYC регистрация</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Календарь врачей</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Видео-комната</div>
+                        </div>
+                        <div class="card">
+                            <h3>Вариант 3 (Гибрид)</h3>
+                            <span class="badge">22 фич</span>
+                            <div class="list-item" style="font-size: 0.9rem;">Чат + карта клиник</div>
+                            <div class="list-item" style="font-size: 0.9rem;">AI-симптомчекер</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Интеграция CRM</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Взаимозачёт</div>
+                        </div>
+                        <div class="card">
+                            <h3>Вариант 4 (AI+Чат)</h3>
+                            <span class="badge">19 фич</span>
+                            <div class="list-item" style="font-size: 0.9rem;">Telegram-бот</div>
+                            <div class="list-item" style="font-size: 0.9rem;">AI-интервью</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Структур. кейсы</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Follow-up</div>
+                        </div>
+                    </div>
+                `
+            },
+            // SLIDE 10
+            {
+                title: "Как выбрать вариант?",
+                subtitle: "Рекомендации по типу основателя",
+                content: `
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <h3>🟡 Хочешь быстро запуститься</h3>
+                            <p style="margin-top: 12px; color: #60a5fa; font-weight: 700;">→ Вариант 1 или 4</p>
+                            <div class="list-item" style="font-size: 0.9rem;">Запуск за 3-5 недель</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Revenue с первого месяца</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Минимальный бюджет</div>
+                        </div>
+                        <div class="card">
+                            <h3>🟢 Готов вложить больше времени</h3>
+                            <p style="margin-top: 12px; color: #60a5fa; font-weight: 700;">→ Вариант 2</p>
+                            <div class="list-item" style="font-size: 0.9rem;">Premium качество</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Высокий LTV (5000 ₽)</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Retention 40%</div>
+                        </div>
+                        <div class="card">
+                            <h3>🟠 Есть партнёрства с клиниками</h3>
+                            <p style="margin-top: 12px; color: #60a5fa; font-weight: 700;">→ Вариант 3</p>
+                            <div class="list-item" style="font-size: 0.9rem;">Омниканальная стратегия</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Конверсия 30%</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Требует партнёрств</div>
+                        </div>
+                        <div class="card">
+                            <h3>🔵 Фанат AI и автоматизации</h3>
+                            <p style="margin-top: 12px; color: #60a5fa; font-weight: 700;">→ Вариант 4</p>
+                            <div class="list-item" style="font-size: 0.9rem;">AI-структура кейсов</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Быстрый запуск</div>
+                            <div class="list-item" style="font-size: 0.9rem;">Масштабируемо</div>
+                        </div>
+                    </div>
+                `
+            },
+            // SLIDE 11
+            {
+                title: "Timeline: От идеи до revenue",
+                subtitle: "Сколько времени до первых денег?",
+                content: `
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <h3>Вариант 1 & 4 (БЫСТРЫЙ)</h3>
+                            <div class="list-item" style="font-size: 0.9rem;"><span class="highlight">Неделя 1-3:</span> Разработка</div>
+                            <div class="list-item" style="font-size: 0.9rem;"><span class="highlight">Неделя 4:</span> Лаунч MVP</div>
+                            <div class="list-item" style="font-size: 0.9rem;"><span class="highlight">Неделя 5-8:</span> Growth</div>
+                            <div class="list-item" style="font-size: 0.9rem;"><span class="highlight">Неделя 9+:</span> 💰 Revenue</div>
+                            <p style="margin-top: 20px; color: #60a5fa; font-weight: 700;">ИТОГО: ~2 месяца</p>
+                        </div>
+                        <div class="card">
+                            <h3>Вариант 2 (ДОЛГИЙ)</h3>
+                            <div class="list-item" style="font-size: 0.9rem;"><span class="highlight">Неделя 1-4:</span> Дизайн + разработка</div>
+                            <div class="list-item" style="font-size: 0.9rem;"><span class="highlight">Неделя 5-8:</span> Интеграции</div>
+                            <div class="list-item" style="font-size: 0.9rem;"><span class="highlight">Неделя 9-12:</span> Тестирование</div>
+                            <div class="list-item" style="font-size: 0.9rem;"><span class="highlight">Неделя 13+:</span> 💰 Revenue</div>
+                            <p style="margin-top: 20px; color: #c084fc; font-weight: 700;">ИТОГО: ~5 месяцев</p>
+                        </div>
+                    </div>
+                `
+            },
+            // SLIDE 12
+            {
+                title: "Следующие шаги",
+                subtitle: "Как начать?",
+                content: `
+                    <div>
+                        <div class="card" style="margin-bottom: 16px;">
+                            <span class="step-number">1</span>
+                            <h3 style="display: inline; margin: 0;">Выбор варианта</h3>
+                            <p style="margin-top: 12px;">Определи, какой вариант подходит под твои ограничения</p>
+                        </div>
+                        <div class="card" style="margin-bottom: 16px;">
+                            <span class="step-number">2</span>
+                            <h3 style="display: inline; margin: 0;">Найди ветеринаров-консультантов</h3>
+                            <p style="margin-top: 12px;">Договорись с 2-3 врачами для пилота</p>
+                        </div>
+                        <div class="card" style="margin-bottom: 16px;">
+                            <span class="step-number">3</span>
+                            <h3 style="display: inline; margin: 0;">Собери MVP за 3-5 недель</h3>
+                            <p style="margin-top: 12px;">Команда: 1 backend dev, 1 frontend dev, 1 дизайнер</p>
+                        </div>
+                        <div class="card">
+                            <span class="step-number">4</span>
+                            <h3 style="display: inline; margin: 0;">Лаунч с первыми юзерами</h3>
+                            <p style="margin-top: 12px;">Друзья, семья, реферралы. Собирай фидбэк и улучшай</p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlideIndex = 0;
+
+        function renderSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+            const slide = slides[index];
+            const slideContainer = document.getElementById('slideContent');
+            slideContainer.innerHTML = `
+                <h1>${slide.title}</h1>
+                <h2>${slide.subtitle}</h2>
+                <div style="margin-top: 40px;">${slide.content}</div>
+            `;
+
+            currentSlideIndex = index;
+            updateControls();
+            updateProgress();
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < slides.length - 1) {
+                renderSlide(currentSlideIndex + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                renderSlide(currentSlideIndex - 1);
+            }
+        }
+
+        function updateControls() {
+            document.getElementById('currentSlide').textContent = currentSlideIndex + 1;
+            document.getElementById('prevBtn').disabled = currentSlideIndex === 0;
+            document.getElementById('nextBtn').disabled = currentSlideIndex === slides.length - 1;
+        }
+
+        function updateProgress() {
+            const progress = ((currentSlideIndex + 1) / slides.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        renderSlide(0);
+    </script>
+</body>
+</html>
